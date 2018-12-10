@@ -1,0 +1,70 @@
+<?php
+
+use Krystal\Form\Element;
+
+?>
+
+<h2 class="page-header">
+    <?php $this->show($title); ?>
+
+    <?php if ($asClient): ?>
+    <small class="text-muted"> (<?= $invoice['tour']; ?>) </small>
+    <?php endif; ?>
+</h2>
+
+<?php $this->loadPartial('bs-flash'); ?>
+
+<form class="form-horizontal" method="POST" action="<?= $this->url('Tour:Payment@invoiceAction'); ?>">
+  <?= Element::hidden('id', $invoice['id']); ?>
+  <?= Element::hidden('tour', $invoice['tour']); ?>
+  <?= Element::hidden('tour_id', $invoice['tour_id']); ?>
+
+  <?php if (($asClient && $invoice['amount'] !== false) || !$asClient): ?>
+  <?= Element::hidden('amount', $invoice['amount']); ?>
+  <?php endif; ?>
+    
+  <fieldset>
+    <div class="form-group">
+      <label for="inputName" class="col-lg-2 control-label"><?php $this->show('Your name'); ?></label>
+      <div class="col-lg-10">
+        <?= Element::text('client', $invoice['client'], ['class' => 'form-control', 'id' => 'inputName', 'placeholder' => $this->translate('Type your name')]); ?>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputEmail" class="col-lg-2 control-label"><?php $this->show('Email'); ?></label>
+      <div class="col-lg-10">
+        <?= Element::text('email', $invoice['email'], ['class' => 'form-control', 'id' => 'inputEmail', 'placeholder' => $this->translate('Type your email')]); ?>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputPhone" class="col-lg-2 control-label"><?php $this->show('Phone'); ?></label>
+      <div class="col-lg-10">
+        <?= Element::text('phone', $invoice['phone'], ['class' => 'form-control', 'id' => 'inputPhone', 'placeholder' => $this->translate('Type your phone')]); ?>
+      </div>
+    </div>
+
+    <?php if ($asClient): ?>
+    <div class="form-group">
+        <label for="inputCaptcha" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <a href="#" title="<?php $this->show('Click to refresh'); ?>" data-captcha="button-refresh"><img data-captcha="image" src="<?php echo $this->url('Site:Main@captchaAction', null); ?>" /></a>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="inputCaptcha" class="col-lg-2 control-label"></label>
+        <div class="col-lg-10">
+            <input type="text" class="form-control" id="inputCaptcha" name="captcha" placeholder="<?php $this->show("Prove that you are not a bot"); ?>" />
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <div class="form-group">
+      <div class="col-lg-10 pull-right">
+        <button type="submit" class="btn btn-success" data-button="submit"><?php $this->show('Submit'); ?></button>
+      </div>
+    </div>
+  </fieldset>
+</form>
