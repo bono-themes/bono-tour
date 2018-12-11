@@ -204,17 +204,17 @@ use Krystal\Form\Element;
         <div class="row">
             <div class="col-lg-4">
                 <table class="table">
-                <tbody>
-                <?php foreach ($tour->getReviews() as $review): ?>
-                <tr>
-                    <p>
-                        <span><?= $review['name']; ?> <em> at <?= $review['datetime']; ?></em></span>
-                    </p>
+                    <tbody>
+                    <?php foreach ($tour->getReviews() as $review): ?>
+                    <tr>
+                        <p>
+                            <span><?= $review->getName(); ?> <em> at <?= $review->getDatetime(); ?></em></span>
+                        </p>
 
-                    <p><?= $review['message']; ?></p>
-                </tr>
-                <?php endforeach; ?>
-                </tbody>
+                        <p><?= $review->getMessage(); ?></p>
+                    </tr>
+                    <?php endforeach; ?>
+                    </tbody>
                 </table>
             </div>
         </div>
