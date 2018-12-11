@@ -1,0 +1,188 @@
+<?php
+
+/**
+ * This is tour template. The main variable here is $tour entity object. It has the following methods:
+ * 
+ * - $tour->getName()
+ *   Returns tour name.
+ * 
+ * - $tour->getDescription()
+ *   Returns tour description.
+ * 
+ * - $tour->getIncluded()
+ *   Return a text on what's included
+ * 
+ * - $tour->getExcluded()
+ *   Returns a text on what's not included
+ * 
+ * - $tour->getGallery()
+ *   Returns an array of gallery images. Values represent full path to images.
+ *   
+ * - $tour->hasGalleryControls()  
+ *   Returns boolean indicating whether gallery has more than one image uploaded.
+ *   
+ * - $tour->hasGallery()
+ *   Returns boolean indicating whether this tour has at least one gallery image uploaded.
+ *   
+ * - $tour->getDays()
+ *   Returns an array of day entities.
+ *   
+ * - $tour->getPrice()
+ *   Returns current price.
+ *   
+ * - $tour->getStartPrice()  
+ *   Returns start price.
+ *   
+ * - $tour->hasPrice()
+ *   Returns boolean. Check whether this tour has a price.
+ *   
+ * - $tour->hasStartPrice()
+ *   Return boolean. Check whether this tour has start price.
+ *   
+ * - $tour->getDays()
+ *   Returns an array of day entities.
+ *   
+ * - $tour->hasDays()
+ *   Returns boolean indicating whether this tour has at least one day.
+ *   
+ * - $tour->getDaysCount()
+ *   Returns a count of available days.
+ *   
+ * - $tour->getNightsCount()
+ *   Returns a count of available nights.
+ *   
+ * - $tour->getDates()
+ *   Returns an array of date entities.
+ *   
+ * - $tour->hasDates()
+ *   Returns boolean indicating whether this tour has at lease on date.
+ *   
+ */
+
+?>
+
+<h2 class="page-header"><?= $tour->getName(); ?></h2>
+
+<?php if ($tour->hasPrice()): ?>
+<p>Price: <?= $tour->getPrice(); ?></p>
+<?php endif; ?>
+
+<p>Days: <?= $tour->getDaysCount(); ?></p>
+<p>Nights: <?= $tour->getNightsCount(); ?></p>
+
+<div class="row">
+    <div class="col-lg-6">
+        <?php if ($tour->hasGallery()): ?>
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <?php foreach ($tour->getGallery() as $index => $image): ?>
+            <li data-target="#myCarousel" data-slide-to="<?= $index; ?>" class="<?= $index == 0 ? 'active' : null; ?>"></li>
+            <?php endforeach; ?>
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+            <?php foreach ($tour->getGallery() as $index => $image): ?>
+            <div class="item <?= $index == 0 ? 'active' : null; ?>">
+              <img src="<?= $image; ?>" alt="<?= $tour->getName(); ?>">
+            </div>
+            <?php endforeach; ?>
+          </div>
+
+          <?php if ($tour->hasGalleryControls()): ?>
+          <!-- Left and right controls -->
+          <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+
+          <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+          </a>
+          <?php endif; ?>
+
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="col-lg-6">
+        <article><?= $tour->getDescription(); ?></article>
+    </div>
+</div>
+
+<br />
+
+<section>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#included"><?php $this->show('What\'s included'); ?></a></li>
+        <li><a data-toggle="tab" href="#excluded"><?php $this->show('What\'s not included'); ?></a></li>
+        <?php if ($tour->hasDays()): ?>
+        <li><a data-toggle="tab" href="#days"><?php $this->show('Days'); ?></a></li>
+        <?php endif; ?>
+        
+        <?php if ($tour->hasDates()): ?>
+        <li><a data-toggle="tab" href="#dates"><?php $this->show('Dates'); ?></a></li>
+        <?php endif; ?>
+    </ul>
+
+    <div class="tab-content">
+      <div id="included" class="tab-pane fade in active">
+        <?= $tour->getIncluded(); ?>
+      </div>
+      
+      <div id="excluded" class="tab-pane fade">
+        <?= $tour->getExcluded(); ?>
+      </div>
+
+      <?php if ($tour->hasDates()): ?>
+      <div id="days" class="tab-pane fade">
+        <div class="panel-group" id="accordion">
+          <?php foreach ($tour->getDays() as $index => $day): ?>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="<?php printf('#collapse-%s', $day->getId()); ?>"><?= $day->getTitle(); ?></a>
+              </h4>
+            </div>
+
+            <div id="<?php printf('collapse-%s', $day->getId()); ?>" class="panel-collapse collapse <?= $index == 0 ? 'in' : ''; ?>">
+              <div class="panel-body">
+                <?= $day->getDescription(); ?>
+              </div>
+            </div>
+          </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <?php endif; ?>
+
+      <?php if ($tour->hasDays()): ?>
+      <div id="dates" class="tab-pane fade">
+        <div class="row">
+            <div class="col-lg-5">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th><?php $this->show('Start'); ?></th>
+                            <th><?php $this->show('End'); ?></th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                    <?php foreach ($tour->getDates() as $index => $date): ?>
+                    <tr>
+                        <td><?= $date->getStart(); ?></td>
+                        <td><?= $date->getEnd(); ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+      <?php endif; ?>
+
+    </div>
+</section>
