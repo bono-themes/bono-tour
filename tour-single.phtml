@@ -57,6 +57,15 @@
  * - $tour->hasDates()
  *   Returns boolean indicating whether this tour has at lease on date.
  *   
+ * - $tour->hasReviews()  
+ *   Returns boolean indicating whether this tour has at lease one review
+ *   
+ * - $tour->getReviews()  
+ *   Returns a collection of reviews
+ *   
+ * - $tour->getReviewCount()  
+ *   Returns total count of reviews
+ *   
  */
 
 ?>
@@ -125,6 +134,8 @@
         <?php if ($tour->hasDates()): ?>
         <li><a data-toggle="tab" href="#dates"><?php $this->show('Dates'); ?></a></li>
         <?php endif; ?>
+
+        <li><a data-toggle="tab" href="#reviews"><?php $this->show('Reviews'); ?> (<?= $tour->getReviewCount(); ?>)</a></li>
     </ul>
 
     <div class="tab-content">
@@ -184,5 +195,29 @@
       </div>
       <?php endif; ?>
 
+      <div id="reviews" class="tab-pane fade">
+        <?php if ($tour->hasReviews()): ?>
+        <div class="row">
+            <div class="col-lg-4">
+                <table class="table">
+                <tbody>
+                <?php foreach ($tour->getReviews() as $review): ?>
+                <tr>
+                    <p>
+                        <span><?= $review['name']; ?> <em> at <?= $review['datetime']; ?></em></span>
+                    </p>
+
+                    <p><?= $review['message']; ?></p>
+                </tr>
+                <?php endforeach; ?>
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <?php else: ?>
+        <h3><?php $this->show('No reviews at the moment'); ?></h3>
+
+        <?php endif; ?>
+      </div>
     </div>
 </section>
