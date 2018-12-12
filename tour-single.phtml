@@ -17,6 +17,12 @@ use Krystal\Form\Element;
  * - $tour->getExcluded()
  *   Returns a text on what's not included
  * 
+ * - $tour->getAdults()
+ *   Returns number of adults
+ *   
+ * - $tour->getChildren()
+ *   Returns number of children
+ *   
  * - $tour->getGallery()
  *   Returns an array of gallery images. Values represent full path to images.
  *   
@@ -80,6 +86,8 @@ use Krystal\Form\Element;
 
 <p>Days: <?= $tour->getDaysCount(); ?></p>
 <p>Nights: <?= $tour->getNightsCount(); ?></p>
+<p>Adults: <?= $tour->getAdults(); ?></p>
+<p>Children: <?= $tour->getChildren(); ?></p>
 
 <div class="row">
     <div class="col-lg-6">
