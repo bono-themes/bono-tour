@@ -16,12 +16,16 @@
 
 <h2 class="page-header"><?= $category->getName(); ?></h2>
 
+<article><?= $category->getDescription(); ?></article>
+
 <div class="row">
     <?php foreach ($tours as $tour): ?>
     <div class="col-lg-3 col-md-4 col-xs-6">
         <a href="<?= $tour->getUrl(); ?>" class="d-block mb-4 h-100">
             <img class="img-fluid img-thumbnail" src="<?= $tour->getImageUrl('400x400'); ?>" alt="<?= $tour->getName(); ?>" />
         </a>
+
+        <span><?= $tour->getName(); ?></span>
     </div>
     <?php endforeach; ?>
 </div>
