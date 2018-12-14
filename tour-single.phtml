@@ -82,6 +82,7 @@ use Krystal\Form\Element;
 
 <?php if ($tour->hasPrice()): ?>
 <p>Price: <?= $tour->getPrice(); ?></p>
+<p><a class="btn btn-primary" href="<?= $this->url('Tour:Tour@bookAction', $tour->getId()); ?>"><?php $this->show('Buy this tour'); ?></a></p>
 <?php endif; ?>
 
 <p>Days: <?= $tour->getDaysCount(); ?></p>
